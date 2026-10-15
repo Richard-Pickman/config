@@ -1,0 +1,15 @@
+# Track only Neovim configuration and this ignore file.
+/*
+!/.gitignore
+!/nvim/
+
+# Runtime state and local-only files.
+**/.DS_Store
+**/*.swp
+**/*.swo
+**/*~
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+**/secrets.*
