@@ -2,6 +2,8 @@
 /*
 !/.gitignore
 !/nvim/
+!/misc_configuration/
+!push_to_github.bash
 
 # Runtime state and local-only files.
 **/.DS_Store
