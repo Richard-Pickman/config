@@ -46,5 +46,3 @@ if [[ -f ~/bin_linux_main/calendar.py ]]; then
 fi
 
 ~/motd.bash
-
-
