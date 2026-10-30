@@ -38,11 +38,15 @@ export PS4="+ \${LINENO} "
 export CODEX_CONFIG_PATH="$HOME/.codex/config.toml"
 
 export HISTCONTROL=ignoredups
+export HISTSIZE=1000
+export HISTFILESIZE=1000
 
 PROMPT_COMMAND='printf "\033]7;%s\007" "file://${PWD}"'
 
 if [[ -f ~/bin_linux_main/calendar.py ]]; then
   ~/bin_linux_main/calendar.py
 fi
+
+source "$HOME/bin/cd"
 
 ~/motd.bash
