@@ -19,18 +19,58 @@ fi
 
 alias c=clear
 alias p=pwd
-alias l='ls -a'
-alias ls='ls --color=auto'
-alias b='cd ..;pwd'
+#alias l='ls -a -p -G'
+#alias ls='ls -p -G'
+alias l='ls -a -p --color=auto'
+alias ls='ls -p --color=auto'
+alias ..='echo "cd ..";cd ..'
 alias type='type -a'
 alias code='code --disable-gpu'
 
-# Use vi navigation with bash.
+# vi mode
 set -o vi
 
-#PROMPT_COMMAND='printf "\\e]9;9;%s\\a" "$PWD"; '"${PROMPT_COMMAND:-}"
-#PS1='\[\033[0;94m\]\u@\h $ \[\033[0m\]'
-PS1='\[\033[0;94m\]$ \[\033[0m\]'
+# prompt configuration
+tput_available=false
+TPUT_RESET=""
+if [[ -f "$HOME/bin/tput_codes.bash" ]]; then
+  source "$HOME/bin/tput_codes.bash"
+  if [[ -n ${TPUT_RED-} && -n ${TPUT_RESET-} ]]; then
+    tput_available=true
+  fi
+fi
+prompt-minimal() {
+  local prompt_color="" reset=""
+  if [[ $tput_available == true ]]; then
+    prompt_color=$TPUT_GREEN
+    reset=$TPUT_RESET
+  fi
+  PS1="\[${prompt_color}\]$ \[${reset}\]"
+}
+prompt-standard() {
+  local user="" at="" machine="" dir="" reset=""
+  if [[ $tput_available == true ]]; then
+    user=$TPUT_BRIGHT_MAGENTA
+    at=$TPUT_GREEN
+    machine=$TPUT_BRIGHT_MAGENTA
+    dir=$TPUT_BRIGHT_BLUE
+    reset=$TPUT_RESET
+  fi
+  # exit code of last process
+  PS1="\[${user}\]\u\[${at}\]@\[${machine}\]\h ${dir}\w\[${reset}\] "
+}
+prompt-update() {
+  if [ -n "$TMUX" ]; then
+    prompt-minimal
+  else
+    prompt-standard
+  fi
+}
+# Call our function right before the prompt is displayed.
+PROMPT_COMMAND=prompt-update
+
+# limit number of subdirectories to display
+PROMPT_DIRTRIM=3
 
 # display line number when debugging bash scripts
 export PS4="+ \${LINENO} "
@@ -41,7 +81,7 @@ export HISTCONTROL=ignoredups
 export HISTSIZE=1000
 export HISTFILESIZE=1000
 
-PROMPT_COMMAND='printf "\033]7;%s\007" "file://${PWD}"'
+#PROMPT_COMMAND='printf "\033]7;%s\007" "file://${PWD}"'
 
 if [[ -f ~/bin_linux_main/calendar.py ]]; then
   ~/bin_linux_main/calendar.py

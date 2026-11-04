@@ -1,0 +1,4 @@
+# prompt-theme-<nnn> user at machine dir symbol reset
+prompt-theme-001 13 34 13 12 34
+prompt-theme-002 12 34 12 13 34
+prompt-theme-003 226 34 226 34 6
